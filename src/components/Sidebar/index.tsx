@@ -15,7 +15,7 @@ const Sidebar = (props: SidebarProps) => {
   }, []);
 
   return (
-    <div className="sidebar-custom h-full">
+    <div className="sidebar-custom h-full select-none">
       <div className="rotate-[90deg] origin-bottom-left ml-9">
         <span className="absolute rotate-180 whitespace-nowrap mx-5">
           {props.items
