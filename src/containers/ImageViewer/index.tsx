@@ -2,6 +2,10 @@ import React, { useState } from "react";
 import Window from "../Window";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
+interface ImageViewerProps {
+  image: string;
+}
+
 const controlTopButtons = () => {
   return (
     <div className="flex mr-2">
@@ -18,13 +22,15 @@ const controlTopButtons = () => {
   );
 };
 
-const ImageViewer = () => {
+const ImageViewer = (props: ImageViewerProps) => {
   return (
     <Window title="Image" topElement={controlTopButtons}>
-      <div className="h-full w-full bg-black rounded-b-xl overflow-x-scroll overflow-scroll cursor-grab">
+      <div className="bg-black w-full h-full rounded-b-xl overflow-hidden cursor-grab">
         <TransformWrapper>
           <TransformComponent>
-            <img src="https://picsum.photos/id/450/1920/1920" />
+            {props.image ? (
+              <img src={props.image} className="h-full w-full" />
+            ) : null}
           </TransformComponent>
         </TransformWrapper>
       </div>
