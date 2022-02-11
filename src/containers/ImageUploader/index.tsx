@@ -1,18 +1,29 @@
-import React from "react";
+import React, {FC} from "react";
 import Window from "../Window";
 
-const uploadButtonTop = () => {
+const UploadButtonTop = (props:any) => {
   return (
     <div className="relative overflow-hidden bg-[#4A4A4A] ml-2 mr-2 px-2 text-sm justify-center items-center flex rounded-md cursor-pointer transition-all hover:bg-[#707070]">
       +
-      <input type="file" className="absolute left-0 top-0 opacity-0" />
+      <input type="file" className="absolute left-0 top-0 opacity-0" onChange={e => props.onImageUploadChange(e)} />
     </div>
   );
 };
 
-const ImageUploader = () => {
+interface IProps {
+  onImageUploadChange: Function
+}
+
+const ImageUploader: FC<IProps> = (props: IProps) => {
   return (
-    <Window title="Image Uploader" topElement={uploadButtonTop}>
+    <Window
+      title="Image Uploader"
+      topElement={()=>{
+        return(
+          <UploadButtonTop onImageUploadChange={props.onImageUploadChange} />
+        )
+      }}
+    >
       <div className="flex flex-col justify-center items-center pb-0">
         <div className="p-12 flex flex-col justify-center items-center">
           <svg
