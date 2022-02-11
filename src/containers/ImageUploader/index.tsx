@@ -1,17 +1,18 @@
 import React from "react";
 import Window from "../Window";
 
+const uploadButtonTop = () => {
+  return (
+    <div className="relative overflow-hidden bg-[#4A4A4A] ml-2 mr-2 px-2 text-sm justify-center items-center flex rounded-md cursor-pointer transition-all hover:bg-[#707070]">
+      +
+      <input type="file" className="absolute left-0 top-0 opacity-0" />
+    </div>
+  );
+};
+
 const ImageUploader = () => {
   return (
-    <Window
-      title="Image Uploader"
-      topButton={
-        <div className="relative overflow-hidden bg-[#4A4A4A] ml-2 mr-2 px-2 text-sm justify-center items-center flex rounded-md cursor-pointer transition-all hover:bg-[#707070]">
-          +
-          <input type="file" className="absolute left-0 top-0 opacity-0" />
-        </div>
-      }
-    >
+    <Window title="Image Uploader" topElement={uploadButtonTop}>
       <div className="flex flex-col justify-center items-center pb-0">
         <div className="p-12 flex flex-col justify-center items-center">
           <svg

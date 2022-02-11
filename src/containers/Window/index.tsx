@@ -3,7 +3,7 @@ import "./style.css";
 
 type WindowProps = {
   title: string;
-  topButton?: React.ReactNode;
+  topElement?: React.FC;
   children: React.ReactNode;
 };
 
@@ -17,7 +17,7 @@ const Window = (props: WindowProps) => {
           </div>
           <div className="text-white text-sm mr-2 pr-2">{props.title}</div>
         </div>
-        <div>{props.topButton ? props.topButton : null}</div>
+        <div>{props.topElement ? <props.topElement /> : null}</div>
       </div>
       {props.children}
     </div>

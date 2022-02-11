@@ -14,7 +14,7 @@ const SliderGroup = (props: any) => {
         {props.title}
       </div>
       <div className="grow px-5 justify-center items-center flex">
-        <SliderWithTooltip value={props.value} />
+        <SliderWithTooltip min={-200} max={200} value={props.value} />
       </div>
     </div>
   );
@@ -23,11 +23,11 @@ const SliderGroup = (props: any) => {
 const ParameterSetter = () => {
   return (
     <Window title="Parameter Setter">
-      <div className="h-full w-full overflow-x-auto pt-3">
+      <div className="h-full w-full overflow-auto pt-3">
         {sliderData.map((value, index) => {
           return (
             <div className="mb-2 px-2">
-              <SliderGroup title={`P-${index + 1}`} value />
+              <SliderGroup title={`P-${index + 1}`} value={value} />
             </div>
           );
         })}

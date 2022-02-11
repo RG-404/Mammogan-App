@@ -10,7 +10,9 @@ const Workspace = () => {
         <div className="pb-6">
           <ImageUploader />
         </div>
-        <ParameterSetter />
+        <div className="w-full">
+          <ParameterSetter />
+        </div>
       </div>
       <div className="w-2/3 items-center justify-center align-middle flex pr-14">
         <ImageViewer />
