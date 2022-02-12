@@ -1,4 +1,4 @@
-import react, { useEffect } from "react";
+import react from "react";
 import { Link } from "react-router-dom";
 import "./style.css";
 
@@ -10,10 +10,6 @@ type SidebarProps = {
 };
 
 const Sidebar = (props: SidebarProps) => {
-  useEffect(() => {
-    console.log(props);
-  }, []);
-
   return (
     <div className="sidebar-custom h-full select-none">
       <div className="rotate-[90deg] origin-bottom-left ml-9">
@@ -21,9 +17,9 @@ const Sidebar = (props: SidebarProps) => {
           {props.items
             .slice(0)
             .reverse()
-            .map((item) => {
+            .map((item, index) => {
               return (
-                <Link to={item.link}>
+                <Link to={item.link} key={index}>
                   <span className="text-gray-500 uppercase mx-5 font-bold transition hover:text-white cursor-pointer">
                     {item.title}
                   </span>

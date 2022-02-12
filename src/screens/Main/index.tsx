@@ -22,9 +22,6 @@ const Main = () => {
           <Outlet />
         </div>
       </div>
-      {/* <div className="h-[2%]">
-        <StatusBar />
-      </div> */}
     </div>
   );
 };

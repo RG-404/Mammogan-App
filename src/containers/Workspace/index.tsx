@@ -31,7 +31,6 @@ const Workspace = () => {
   };
 
   const onImageUploadChange = async (file: any) => {
-    console.log("Clicked");
     setFilePath(file);
     setOn(false);
     let fileName = file.name.split(".")[0];
@@ -101,7 +100,7 @@ const Workspace = () => {
   useEffect(() => {
     if (socket !== null) {
       socket.on("connect", () =>
-        console.log("Socket Connection Established " + socket.id)
+        console.log("Socket Connection Established\nID: " + socket.id)
       );
       socket.on("uploadMsg", (msg: any) => setProgress(msg));
     }
