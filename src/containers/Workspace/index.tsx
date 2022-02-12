@@ -4,8 +4,9 @@ import ImageViewer from "../ImageViewer";
 import ParameterSetter from "../ParameterSetter";
 import io from "socket.io-client";
 import axios from "axios";
+import config from "../../config.json";
 
-const url = "https://07eb-117-214-10-211.ngrok.io/";
+const url = config.url;
 
 const Workspace = () => {
   const [socket, setSocket] = useState<any>(null);
