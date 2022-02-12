@@ -130,11 +130,7 @@ const Workspace = () => {
         </div>
       </div>
       <div className="w-2/3 items-center justify-center align-middle flex pr-14">
-        {/* <ImageViewer image={genImageSrc} isLoading={genImageLoading} /> */}
-        <ImageViewer
-          image={"https://picsum.photos/id/237/512/512"}
-          isLoading={genImageLoading}
-        />
+        <ImageViewer image={genImageSrc} isLoading={genImageLoading} />
       </div>
     </div>
   );
