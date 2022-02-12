@@ -4,6 +4,7 @@ import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
 interface ImageViewerProps {
   image: string;
+  isLoading: boolean;
 }
 
 const controlTopButtons = () => {
@@ -25,14 +26,18 @@ const controlTopButtons = () => {
 const ImageViewer = (props: ImageViewerProps) => {
   return (
     <Window title="Image" topElement={controlTopButtons}>
-      <div className="bg-black w-full h-full rounded-b-xl overflow-hidden cursor-grab">
-        <TransformWrapper>
-          <TransformComponent>
-            {props.image ? (
-              <img src={props.image} className="h-full w-full" />
-            ) : null}
-          </TransformComponent>
-        </TransformWrapper>
+      <div className="bg-black w-full h-full rounded-b-xl overflow-hidden cursor-grab flex justify-center items-center">
+        {props.isLoading ? (
+          <div className="text-sm text-gray-500">Generating image...</div>
+        ) : (
+          <TransformWrapper>
+            <TransformComponent>
+              {props.image ? (
+                <img src={props.image} className="h-full w-full" />
+              ) : null}
+            </TransformComponent>
+          </TransformWrapper>
+        )}
       </div>
     </Window>
   );
