@@ -25,7 +25,7 @@ const ParameterSetter: React.FC<ParameterType> = (props: ParameterType) => {
               key={index}
             >
               <div className="flex bg-[#303030] rounded-md py-1">
-                <div className="ml-3 bg-[#4A4A4A] text-sm px-3 rounded-md">
+                <div className="ml-3 bg-[#4A4A4A] text-sm px-3 rounded-md text-white">
                   {`P-${index + 1}`}
                 </div>
                 <div className="grow px-5 justify-center items-center flex">

@@ -17,7 +17,7 @@ const Window = (props: WindowProps) => {
           </div>
           <div className="text-white text-sm mr-2 pr-2">{props.title}</div>
         </div>
-        <div>{props.topElement ? <props.topElement /> : null}</div>
+        {props.topElement ? <props.topElement /> : null}
       </div>
       {props.children}
     </div>
