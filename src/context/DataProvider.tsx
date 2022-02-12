@@ -1,25 +1,34 @@
 import React, { useState, createContext, useEffect } from "react";
 
 interface StatusContextProps {
-  statusMessage: string;
-  statusColor: string;
-  statusTexColor: string;
+  realImageSrc: string,
+  setRealImageSrc: (data:string) => void,
+  genImageSrc: string,
+  setGenImageSrc: (data:string) => void,
+  fileName: string,
+  setFileName: (data:string) => void
 }
 
-export const DataContext = createContext<StatusContextProps | null>(null);
+export const DataContext = createContext<Partial<StatusContextProps>>({});
 
 export const DataProvider = (props: any) => {
-  const [statusMessage, setStatusMessage] = useState("");
-  const [statusColor, setStatusColor] = useState("");
-  const [statusTexColor, setStatusTextColor] = useState("");
+
+  const [realImageSrc, setRealImageSrc] = useState<string>("");
+  const [genImageSrc, setGenImageSrc] = useState<string>("");
+  const [fileName, setFileName] = useState<string>('');
+
+
 
   return (
     <DataContext.Provider
       children={props.children}
       value={{
-        statusMessage,
-        statusColor,
-        statusTexColor,
+        realImageSrc,
+        setRealImageSrc,
+        genImageSrc,
+        setGenImageSrc,
+        fileName,
+        setFileName
       }}
     />
   );

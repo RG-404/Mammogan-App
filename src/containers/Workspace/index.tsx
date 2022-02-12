@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext, ContextType } from "react";
 import ImageUploader from "../ImageUploader";
 import ImageViewer from "../ImageViewer";
 import ParameterSetter from "../ParameterSetter";
 import io from "socket.io-client";
 import axios from "axios";
 import config from "../../config.json";
+import { DataContext } from "../../context/DataProvider";
 
 const url = config.url;
 
@@ -12,15 +13,14 @@ const Workspace = () => {
   const [socket, setSocket] = useState<any>(null);
   const [progress, setProgress] = useState<any>(null);
   const [filePath, setFilePath] = useState(null);
-  const [fileName, setFileName] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [genImageLoading, setGenImageLoading] = useState<boolean>(false);
   const [on, setOn] = useState(false);
-  const [realImageSrc, setRealImageSrc] = useState<any>("");
-  const [genImageSrc, setGenImageSrc] = useState<any>("");
   const [principleValues, setPrincipalValues] = useState([
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   ]);
+
+  const {realImageSrc, setRealImageSrc, genImageSrc, setGenImageSrc, fileName, setFileName} = useContext(DataContext);
 
   const uploadFormData = async (formData: any) => {
     return await axios.post(`${url}upload`, formData, {
@@ -38,7 +38,7 @@ const Workspace = () => {
     setUploading(true);
     setGenImageLoading(true);
     setProgress("Uploading Image");
-    setFileName(fileName);
+    if(setFileName) setFileName(fileName);
 
     let formData = new FormData();
     formData.append("socketId", socket.id);
@@ -48,8 +48,8 @@ const Workspace = () => {
     try {
       const prefix = "data:image/png;base64,";
       const res = await uploadFormData(formData);
-      setRealImageSrc(`${prefix}${res.data.file}`);
-      setGenImageSrc(`${prefix}${res.data.file}`);
+      if(setRealImageSrc) setRealImageSrc(`${prefix}${res.data.file}`);
+      if(setGenImageSrc) setGenImageSrc(`${prefix}${res.data.file}`);
     } catch (e) {
       alert("An error occured while uploading " + fileName);
     } finally {
@@ -71,7 +71,7 @@ const Workspace = () => {
         index: i,
       },
       (res: any) => {
-        setGenImageSrc(res ? `data:image/png;base64,${res}` : null);
+        if(setGenImageSrc) setGenImageSrc(res ? `data:image/png;base64,${res}` : '');
         setGenImageLoading(false);
       }
     );
@@ -85,7 +85,7 @@ const Workspace = () => {
     setOn(true);
     socket.emit("reconstruct", {}, (list: any, res: any) => {
       setPrincipalValues(list);
-      setGenImageSrc(res ? `data:image/png;base64,${res}` : null);
+      if(setGenImageSrc) setGenImageSrc(res ? `data:image/png;base64,${res}` : '');
       setGenImageLoading(false);
     });
   };
@@ -114,7 +114,7 @@ const Workspace = () => {
           <div className="h-full w-full pb-2">
             <ImageUploader
               onReconstruct={onReconstruct}
-              image={realImageSrc}
+              image={realImageSrc || ''}
               onImageUploadChange={onImageUploadChange}
             />
           </div>
@@ -130,7 +130,7 @@ const Workspace = () => {
         </div>
       </div>
       <div className="w-2/3 items-center justify-center align-middle flex pr-14">
-        <ImageViewer image={genImageSrc} isLoading={genImageLoading} />
+        <ImageViewer image={genImageSrc || ''} isLoading={genImageLoading} />
       </div>
     </div>
   );
