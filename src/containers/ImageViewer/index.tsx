@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef } from "react";
 import Window from "../Window";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
 interface ImageViewerProps {
   image: string;
+  isLoading: boolean;
 }
 
 const controlTopButtons = () => {
@@ -22,17 +23,37 @@ const controlTopButtons = () => {
   );
 };
 
+interface IImageViewComponent {
+  image: string;
+}
+
+const ImageViewComponent = (props: any) => {
+  return (
+    <TransformWrapper>
+      <TransformComponent
+        wrapperStyle={{
+          height: "100%",
+          width: "100%",
+        }}
+        contentStyle={{ height: "100%" }}
+      >
+        {props.image ? (
+          <img src={props.image} className="h-full w-full" />
+        ) : null}
+      </TransformComponent>
+    </TransformWrapper>
+  );
+};
+
 const ImageViewer = (props: ImageViewerProps) => {
   return (
     <Window title="Image" topElement={controlTopButtons}>
-      <div className="bg-black w-full h-full rounded-b-xl overflow-hidden cursor-grab">
-        <TransformWrapper>
-          <TransformComponent>
-            {props.image ? (
-              <img src={props.image} className="h-full w-full" />
-            ) : null}
-          </TransformComponent>
-        </TransformWrapper>
+      <div className="bg-black w-full h-full rounded-b-xl overflow-hidden cursor-grab flex justify-center items-center">
+        {props.isLoading ? (
+          <div className="text-sm text-gray-500">Loading image...</div>
+        ) : (
+          <ImageViewComponent image={props.image} />
+        )}
       </div>
     </Window>
   );

@@ -7,7 +7,9 @@ const UploadButtonTop = (props: any) => {
   const updateImage = (e: any) => {
     props.updatePreview(e);
     props.setImageInputFile(e.target.files[0]);
+    props.onImageUploadChange(e.target.files[0]);
   };
+
   return (
     <div className="relative overflow-hidden bg-[#4A4A4A] ml-2 mr-2 px-2 text-sm justify-center items-center flex rounded-md cursor-pointer transition-all hover:bg-[#707070]">
       +
@@ -22,6 +24,7 @@ const UploadButtonTop = (props: any) => {
 
 interface ImageUploaderProps {
   onImageUploadChange: Function;
+  onReconstruct: Function;
   image: string;
 }
 
@@ -39,6 +42,10 @@ const ImageUploader: React.FC<ImageUploaderProps> = (
     }
     window.addEventListener("resize", getElementHeight);
   }, []);
+
+  useEffect(() => {
+    if (props.image) setImagePreview(props.image);
+  }, [props.image]);
 
   const getElementHeight = () => {
     if (imageContainerRef.current) {
@@ -100,8 +107,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = (
       <div
         className="bg-[#494949] w-full rounded-b-xl text-center text-[#1E1E1E] py-1 cursor-pointer transition-all hover:bg-[#707070]"
         onClick={() => {
-          console.log("Uploading");
-          props.onImageUploadChange(imageInputFile);
+          props.onReconstruct();
         }}
       >
         RECONSTRUCT

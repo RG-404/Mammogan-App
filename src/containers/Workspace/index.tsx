@@ -14,11 +14,11 @@ const Workspace = () => {
   const [filePath, setFilePath] = useState(null);
   const [fileName, setFileName] = useState(null);
   const [uploading, setUploading] = useState(false);
-  const [genImageLoading, setGenImageLoading] = useState(false);
+  const [genImageLoading, setGenImageLoading] = useState<boolean>(false);
   const [on, setOn] = useState(false);
   const [realImageSrc, setRealImageSrc] = useState<any>("");
   const [genImageSrc, setGenImageSrc] = useState<any>("");
-  const [principleValues, setPrincipalValues] = useState<Number[]>([
+  const [principleValues, setPrincipalValues] = useState([
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   ]);
 
@@ -30,9 +30,8 @@ const Workspace = () => {
     });
   };
 
-  const onImageUploadChange = async (file:any) => {
+  const onImageUploadChange = async (file: any) => {
     console.log("Clicked");
-    // const file = e.target.files[0];
     setFilePath(file);
     setOn(false);
     let fileName = file.name.split(".")[0];
@@ -61,7 +60,7 @@ const Workspace = () => {
   };
 
   const onChangeSlider = (e: any, i: number) => {
-    let list = principleValues;
+    let list = [...principleValues];
     list[i] = e;
     setPrincipalValues(list);
     setGenImageLoading(true);
@@ -114,6 +113,7 @@ const Workspace = () => {
         <div className="w-full h-2/5 items-center justify-center align-middle flex">
           <div className="h-full w-full pb-2">
             <ImageUploader
+              onReconstruct={onReconstruct}
               image={realImageSrc}
               onImageUploadChange={onImageUploadChange}
             />
@@ -121,12 +121,20 @@ const Workspace = () => {
         </div>
         <div className="w-full h-3/5">
           <div className="h-full w-full pt-3">
-            <ParameterSetter onChangeSlider={onChangeSlider} values={principleValues} />
+            <ParameterSetter
+              onChangeSlider={onChangeSlider}
+              values={principleValues}
+              enable={on}
+            />
           </div>
         </div>
       </div>
       <div className="w-2/3 items-center justify-center align-middle flex pr-14">
-        <ImageViewer image={genImageSrc} />
+        {/* <ImageViewer image={genImageSrc} isLoading={genImageLoading} /> */}
+        <ImageViewer
+          image={"https://picsum.photos/id/237/512/512"}
+          isLoading={genImageLoading}
+        />
       </div>
     </div>
   );
