@@ -39,23 +39,19 @@ const SliderWithTooltip = createSliderWithTooltip(Slider);
 interface ParameterType {
   onChangeSlider: Function;
   values: any[];
+  enable: boolean;
 }
 
 const ParameterSetter: React.FC<ParameterType> = (props: ParameterType) => {
-  const [first, setfirst] = useState([0, 0, 0, 0, 0]);
-
-  const onChange = (e: number, i: number) => {
-    let list = [...first];
-    list[i] = e;
-    setfirst(list);
-  };
-
   return (
     <Window title="Parameter Setter">
-      <div className="h-full w-full overflow-auto pt-3">
+      <div className="h-full w-full overflow-auto relative">
+        {!props.enable ? (
+          <div className="w-full h-full absolute rounded-b-xl flex justify-center items-center z-40 text-white cursor-not-allowed"></div>
+        ) : null}
         {props.values.map((value, index) => {
           return (
-            <div className="mb-2 px-2">
+            <div className={`mb-2 px-2 ${index === 0 ? "mt-3" : null}`}>
               {/* <SliderGroup
                 key={index}
                 title={`P-${index + 1}`}

@@ -112,6 +112,7 @@ const Workspace = () => {
         <div className="w-full h-2/5 items-center justify-center align-middle flex">
           <div className="h-full w-full pb-2">
             <ImageUploader
+              onReconstruct={onReconstruct}
               image={realImageSrc}
               onImageUploadChange={onImageUploadChange}
             />
@@ -122,12 +123,17 @@ const Workspace = () => {
             <ParameterSetter
               onChangeSlider={onChangeSlider}
               values={principleValues}
+              enable={on}
             />
           </div>
         </div>
       </div>
       <div className="w-2/3 items-center justify-center align-middle flex pr-14">
-        <ImageViewer image={genImageSrc} isLoading={genImageLoading} />
+        {/* <ImageViewer image={genImageSrc} isLoading={genImageLoading} /> */}
+        <ImageViewer
+          image={"https://picsum.photos/id/237/512/512"}
+          isLoading={genImageLoading}
+        />
       </div>
     </div>
   );
