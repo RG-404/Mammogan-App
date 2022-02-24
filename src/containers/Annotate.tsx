@@ -10,7 +10,6 @@ const url = config.url;
 
 const Annotate = () => {
   const { realImageSrc, genImageSrc, fileName } = useContext(DataContext);
-
   const mask_canvas_ref: any = useRef(null);
   let res_canvas_ref: any = null;
   const b_width_slider = useRef(null);
@@ -345,7 +344,7 @@ const Annotate = () => {
   const onClickSaveBlend = () => {
     let result_canvas = res_canvas_ref;
     // const fileName = `L_${this.props.leftFileName}_R_${this.props.rightFileName}_Z_${this.props.sliderValue}.png`;
-    const filename = `${fileName}_mod.png`;
+    const filename = `${fileName}_gen+blend.png`;
     result_canvas.toBlob(function (blob: any) {
       saveAs(blob, filename);
     });
@@ -379,7 +378,7 @@ const Annotate = () => {
   }, []);
 
   return (
-    <div className="text-white h-full w-full flex">
+    <div className="text-white h-full w-full flex select-none">
       {/* [*][] */}
       <div id="uploadImageSection" className="h-full w-1/2 pl-14 pr-8">
         <div className="">
@@ -389,10 +388,11 @@ const Annotate = () => {
               return (
                 <div className="flex mr-2">
                   <div className="relative overflow-hidden bg-[#4A4A4A] ml-2 mr-2 px-2 text-sm justify-center items-center flex rounded-md cursor-pointer transition-all hover:bg-[#707070]">
-                    +
+                    CHANGE SOURCE IMAGE
                     <input
                       type="file"
-                      className="absolute left-0 top-0 opacity-0"
+                      className="absolute left-0 top-0 opacity-0 cursor-pointer"
+                      style={{cursor: "pointer"}}
                       onChange={onSrcImgChange}
                     />
                   </div>
@@ -413,7 +413,6 @@ const Annotate = () => {
             }}
           >
             <div id="canvasContainer" className="flex flex-col">
-              {/* <input type="file" onChange={onSrcImgChange} /> */}
               <CanvasDraw
                 canvasHeight={base_size.height}
                 canvasWidth={base_size.width}
@@ -447,54 +446,116 @@ const Annotate = () => {
         </div>
       </div>
       <div id="blendResultSection" className="w-1/2 pr-8">
-        <Window title="Adjust blend position">
-          {/* <canvas
-            id="result-img"
-            ref={(r) => {
-              res_canvas_ref = r;
-              if (r) onBaseImgChange(genImageSrc);
-            }}
-            width={base_size.width}
-            height={base_size.height}
-            className="bg-green-300"
-          /> */}
-        </Window>
+        <div className="flex flex-col h-full">
+          <Window title="Adjust blend position">
+            <canvas
+              style={{ height: "100%" }}
+              id="result-img"
+              ref={(r) => {
+                res_canvas_ref = r;
+                if (r) onBaseImgChange(genImageSrc);
+              }}
+              width={base_size.width}
+              height={base_size.height}
+            />
+          </Window>
+          <div className="mt-4 h-full">
+            <Window title="Adjust blend position">
+              <div className="h-full w-full flex">
+                <div className="h-full w-1/2 flex justify-center items-center">
+                  <div className="bg-[#303030] p-4 rounded-xl">
+                    <svg
+                      viewBox="0 0 50 51"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-20"
+                    >
+                      <rect
+                        x={5}
+                        y={27}
+                        width={3}
+                        height={20}
+                        transform="rotate(-90 5 27)"
+                        fill="#828282"
+                      />
+                      <path
+                        className="cursor-pointer"
+                        onClick={() => {
+                          moveBlendPosition("left");
+                        }}
+                        d="M1.13286e-07 25.5L14.25 17.2728L14.25 33.7272L1.13286e-07 25.5Z"
+                        fill="#828282"
+                      />
+                      <rect
+                        x="26.5"
+                        y="45.5"
+                        width={3}
+                        height={20}
+                        transform="rotate(180 26.5 45.5)"
+                        fill="#828282"
+                      />
+                      <path
+                        className="cursor-pointer"
+                        onClick={() => {
+                          moveBlendPosition("down");
+                        }}
+                        d="M25 50.5L16.7728 36.25L33.2272 36.25L25 50.5Z"
+                        fill="#828282"
+                      />
+                      <rect
+                        x={45}
+                        y={24}
+                        width={3}
+                        height={20}
+                        transform="rotate(90 45 24)"
+                        fill="#828282"
+                      />
+                      <path
+                        className="cursor-pointer"
+                        onClick={() => {
+                          moveBlendPosition("right");
+                        }}
+                        d="M50 25.5L35.75 33.7272L35.75 17.2728L50 25.5Z"
+                        fill="#828282"
+                      />
+                      <rect
+                        x="23.5"
+                        y="5.5"
+                        width={3}
+                        height={20}
+                        fill="#828282"
+                      />
+                      <path
+                        className="cursor-pointer"
+                        onClick={() => {
+                          moveBlendPosition("up");
+                        }}
+                        d="M25 0.500001L33.2272 14.75L16.7728 14.75L25 0.500001Z"
+                        fill="#828282"
+                      />
+                    </svg>
+                  </div>
+                  <div className="bg-[#303030]"></div>
+                </div>
 
-        <div id="blendToolsSection">
-          Adjust Blend position
-          <div>
-            <button
-              onClick={() => {
-                moveBlendPosition("left");
-              }}
-            >
-              Left
-            </button>
-            <button
-              onClick={() => {
-                moveBlendPosition("right");
-              }}
-            >
-              Right
-            </button>
-            <button
-              onClick={() => {
-                moveBlendPosition("down");
-              }}
-            >
-              Down
-            </button>
-            <button
-              onClick={() => {
-                moveBlendPosition("up");
-              }}
-            >
-              Up
-            </button>
-          </div>
-          <div>
-            <button onClick={blendImages}>Start Blending</button>
-            <button onClick={onClickSaveBlend}>Save Blend</button>
+                <div className="h-full w-1/2 flex justify-center items-center">
+                  <div className="flex flex-col">
+                    <button
+                      onClick={blendImages}
+                      className="bg-[#303030] text-sm font-bold px-6 py-2 rounded-xl transition-all hover:bg-gray-500 cursor-pointer mb-3"
+                    >
+                      START BLENDING
+                    </button>
+                    <button
+                      onClick={onClickSaveBlend}
+                      className="bg-[#303030] text-sm font-bold px-6 py-2 rounded-xl transition-all hover:bg-gray-500 cursor-pointer"
+                    >
+                      SAVE BLEND
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </Window>
           </div>
         </div>
       </div>
