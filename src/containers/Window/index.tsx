@@ -9,7 +9,7 @@ type WindowProps = {
 
 const Window = (props: WindowProps) => {
   return (
-    <div className="bg-[#232323] rounded-xl flex items-center flex-col h-full w-full ">
+    <div className="bg-[#232323] rounded-xl flex items-center flex-col h-full w-full">
       <div className="w-full bg-[#303030] text-white py-2 flex rounded-t-xl select-none justify-between">
         <div className="flex">
           <div className="bg-[#4A4A4A] ml-2 mr-2 px-2 text-sm justify-center items-center flex rounded-md">
