@@ -10,16 +10,15 @@ const url = config.url;
 
 const Annotate = () => {
   const { realImageSrc, genImageSrc, fileName } = useContext(DataContext);
-  const mask_canvas_ref: any = useRef(null);
-  let res_canvas_ref: any = null;
-  const b_width_slider = useRef(null);
+  let mask_canvas_ref: any = useRef(null);
+  let res_canvas_ref: any = useRef(null);
+  let b_width_slider = useRef(null);
   const base_size = { width: 512, height: 512 };
   let is_mixing_gradients = false;
-  const btnStyle = { width: 50, height: 25, fontSize: 10, margin: "5px" };
-  const blend_position_offset = { x: 0, y: 0 };
+  let blend_position_offset = { x: 0, y: 0 };
 
-  const base_canvas_ref = document.createElement("canvas");
-  const src_canvas_ref = document.createElement("canvas");
+  let base_canvas_ref = document.createElement("canvas");
+  let src_canvas_ref = document.createElement("canvas");
   base_canvas_ref.width = src_canvas_ref.width = base_size.width;
   base_canvas_ref.height = src_canvas_ref.height = base_size.height;
 
@@ -161,10 +160,10 @@ const Annotate = () => {
           mask_pixels.data[p + 3] === 255
         ) {
           if (
-            x + blend_position_offset.x > max.x ||
-            x + blend_position_offset.x < min.x ||
-            y + blend_position_offset.y > max.y ||
-            y + blend_position_offset.y < min.y
+            (x + blend_position_offset.x) > max.x ||
+            (x + blend_position_offset.x) < min.x ||
+            (y + blend_position_offset.y) > max.y ||
+            (y + blend_position_offset.y) < min.y
           ) {
             if (direction === "up") {
               blend_position_offset.y += 10;
