@@ -91,7 +91,51 @@ const Table = () => {
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {fakeData.map((item) => {
+              <tr>
+                <td colSpan={5}>
+                  <div className="py-10 px-6 flex justify-center items-end w-full">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth={1.2}
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="feather feather-users h-28 text-gray-200 mr-5"
+                    >
+                      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                      <circle cx={9} cy={7} r={4} />
+                      <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                    </svg>
+
+                    {/* <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth={1.2}
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="feather feather-user-x h-28 text-gray-200 mr-5"
+                    >
+                      <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                      <circle cx="8.5" cy={7} r={4} />
+                      <line x1={18} y1={8} x2={23} y2={13} />
+                      <line x1={23} y1={8} x2={18} y2={13} />
+                    </svg> */}
+                    <div className="text-sm text-gray-300 ">
+                      <div className="mb-2">No users registered</div>
+                      <div className="mb-2">
+                        User details will be displayed here
+                      </div>
+                      <div className="mb-2">Add new user +</div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              {/* {fakeData.map((item) => {
                 return (
                   <tr>
                     <td className="px-6 py-4 whitespace-nowrap">
@@ -135,7 +179,7 @@ const Table = () => {
                     </td>
                   </tr>
                 );
-              })}
+              })} */}
             </tbody>
           </table>
         </div>
