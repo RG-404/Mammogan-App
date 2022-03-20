@@ -11,9 +11,6 @@ import Workspace from "./containers/Workspace";
 
 import "./App.css";
 
-import LogRocket from 'logrocket';
-LogRocket.init('s7ksne/test');
-
 function App() {
   return (
     <div className="App">
