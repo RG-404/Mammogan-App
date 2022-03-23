@@ -10,16 +10,15 @@ const url = config.url;
 
 const Annotate = () => {
   const { realImageSrc, genImageSrc, fileName } = useContext(DataContext);
-  const mask_canvas_ref: any = useRef(null);
-  let res_canvas_ref: any = null;
-  const b_width_slider = useRef(null);
+  let mask_canvas_ref: any = useRef(null);
+  let res_canvas_ref: any = useRef(null);
+  let b_width_slider = useRef(null);
   const base_size = { width: 512, height: 512 };
   let is_mixing_gradients = false;
-  const btnStyle = { width: 50, height: 25, fontSize: 10, margin: "5px" };
-  const blend_position_offset = { x: 0, y: 0 };
+  let blend_position_offset = { x: 0, y: 0 };
 
-  const base_canvas_ref = document.createElement("canvas");
-  const src_canvas_ref = document.createElement("canvas");
+  let base_canvas_ref = document.createElement("canvas");
+  let src_canvas_ref = document.createElement("canvas");
   base_canvas_ref.width = src_canvas_ref.width = base_size.width;
   base_canvas_ref.height = src_canvas_ref.height = base_size.height;
 
@@ -31,10 +30,10 @@ const Annotate = () => {
   const [maskFileName, setMaskFileName] = useState<string>("");
 
   const onBaseImgChange = (genImgSrc: any) => {
-    let base_canvas = base_canvas_ref;
+    let base_canvas: any = base_canvas_ref;
     let base_ctx: any = base_canvas.getContext("2d");
     let result_canvas: any = res_canvas_ref;
-    let result_ctx = result_canvas.getContext("2d");
+    let result_ctx: any = result_canvas.getContext("2d");
     let image: any = new Image();
     image.onload = function () {
       result_ctx.drawImage(image, 0, 0, base_size.width, base_size.height);
@@ -51,6 +50,16 @@ const Annotate = () => {
     });
   };
 
+  useEffect(() => {
+    let src_canvas: any = src_canvas_ref;
+    let src_ctx = src_canvas.getContext("2d");
+    let image = new Image();
+    image.src = src_img;
+      image.onload = function () {
+        src_ctx.drawImage(image, 0, 0, base_size.width, base_size.height);
+      };
+  }, [src_img])
+
   const onSrcImgChange = async (e: any) => {
     setUploading(true);
     let src_canvas: any = src_canvas_ref;
@@ -66,11 +75,11 @@ const Annotate = () => {
       const img_base64 = "data:image/png;base64," + res.data;
       setSrcImg(img_base64);
       let image = new Image();
+      image.src = img_base64;
       image.onload = function () {
         src_ctx.drawImage(image, 0, 0, base_size.width, base_size.height);
         mask_ctx.drawImage(image, 0, 0, base_size.width, base_size.height);
       };
-      image.src = img_base64;
     } catch (e) {
       alert("An error occured while uploading");
     } finally {
@@ -126,6 +135,9 @@ const Annotate = () => {
         }
       }
     }
+
+    console.log(src_canvas)
+
     result_ctx.putImageData(result_pixels, 0, 0);
   };
 
@@ -192,13 +204,14 @@ const Annotate = () => {
     image.src = genImageSrc;
   };
 
-  const blendImages = () => {
+  const blendImages = async () => {
     let src_canvas = src_canvas_ref;
     let src_ctx: any = src_canvas.getContext("2d");
     let mask_canvas = mask_canvas_ref.current;
+    // let mask_ctx = mask_canvas.canvasContainer.children[1].getContext("2d");
+    let mask_ctx = mask_canvas.canvas.drawing.getContext("2d");
     let result_canvas = res_canvas_ref;
     let result_ctx = result_canvas.getContext("2d");
-    let mask_ctx = mask_canvas.canvasContainer.children[1].getContext("2d");
     let base_canvas = base_canvas_ref;
     let base_ctx: any = base_canvas.getContext("2d");
 
@@ -343,6 +356,7 @@ const Annotate = () => {
 
   const onClickSaveBlend = () => {
     let result_canvas = res_canvas_ref;
+    console.log(result_canvas);
     // const fileName = `L_${this.props.leftFileName}_R_${this.props.rightFileName}_Z_${this.props.sliderValue}.png`;
     const filename = `${fileName}_gen+blend.png`;
     result_canvas.toBlob(function (blob: any) {
@@ -392,7 +406,7 @@ const Annotate = () => {
                     <input
                       type="file"
                       className="absolute left-0 top-0 opacity-0 cursor-pointer"
-                      style={{cursor: "pointer"}}
+                      style={{ cursor: "pointer" }}
                       onChange={onSrcImgChange}
                     />
                   </div>
