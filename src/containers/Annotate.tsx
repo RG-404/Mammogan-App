@@ -55,10 +55,10 @@ const Annotate = () => {
     let src_ctx = src_canvas.getContext("2d");
     let image = new Image();
     image.src = src_img;
-      image.onload = function () {
-        src_ctx.drawImage(image, 0, 0, base_size.width, base_size.height);
-      };
-  }, [src_img])
+    image.onload = function () {
+      src_ctx.drawImage(image, 0, 0, base_size.width, base_size.height);
+    };
+  }, [src_img, brushWidth]);
 
   const onSrcImgChange = async (e: any) => {
     setUploading(true);
@@ -136,7 +136,7 @@ const Annotate = () => {
       }
     }
 
-    console.log(src_canvas)
+    console.log(src_canvas);
 
     result_ctx.putImageData(result_pixels, 0, 0);
   };
