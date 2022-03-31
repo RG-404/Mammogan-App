@@ -394,185 +394,193 @@ const Annotate = () => {
   return (
     <div className="text-white h-full w-full flex select-none">
       {/* [*][] */}
-      <div id="uploadImageSection" className="h-full w-1/2 pl-14 pr-8">
-        <div className="">
-          <Window
-            title="Draw"
-            topElement={() => {
-              return (
-                <div className="flex mr-2">
-                  <div className="relative overflow-hidden bg-[#4A4A4A] ml-2 mr-2 px-2 text-sm justify-center items-center flex rounded-md cursor-pointer transition-all hover:bg-[#707070]">
-                    CHANGE SOURCE IMAGE
+      {genImageSrc?.length === 0 ? (
+        <div className="w-full self-center text-center">
+          KELLA NAI SUN PHOTO
+        </div>
+      ) : (
+        <React.Fragment>
+          <div id="uploadImageSection" className="h-full w-1/2 pl-14 pr-8">
+            <div className="">
+              <Window
+                title="Draw"
+                topElement={() => {
+                  return (
+                    <div className="flex mr-2">
+                      <div className="relative overflow-hidden bg-[#4A4A4A] ml-2 mr-2 px-2 text-sm justify-center items-center flex rounded-md cursor-pointer transition-all hover:bg-[#707070]">
+                        CHANGE SOURCE IMAGE
+                        <input
+                          type="file"
+                          className="absolute left-0 top-0 opacity-0 cursor-pointer"
+                          style={{ cursor: "pointer" }}
+                          onChange={onSrcImgChange}
+                        />
+                      </div>
+                      <div
+                        onClick={onClickDrawMode}
+                        className="bg-[rgb(74,74,74)] mx-1 px-2 text-sm justify-center items-center flex rounded-md cursor-pointer transition-all hover:bg-[#707070]"
+                      >
+                        DRAW
+                      </div>
+                      <div
+                        onClick={onClickEraseMode}
+                        className="bg-[#4A4A4A] mx-1 px-2 text-sm justify-center items-center flex rounded-md cursor-pointer transition-all hover:bg-[#707070]"
+                      >
+                        ERASE
+                      </div>
+                    </div>
+                  );
+                }}
+              >
+                <div id="canvasContainer" className="flex flex-col">
+                  <CanvasDraw
+                    canvasHeight={base_size.height}
+                    canvasWidth={base_size.width}
+                    ref={mask_canvas_ref}
+                    imgSrc={src_img}
+                    brushColor={brushColor}
+                    brushRadius={brushWidth}
+                    saveData={""}
+                    immediateLoading={true}
+                    lazyRadius={0}
+                  />
+                </div>
+                <div className="w-full rounded-b-xl bg-[#303030] flex justify-between">
+                  <div className="flex items-center pl-4 w-1/2">
+                    <span className="text-xs mr-4 my-2">BRUSH SIZE</span>
                     <input
-                      type="file"
-                      className="absolute left-0 top-0 opacity-0 cursor-pointer"
-                      style={{ cursor: "pointer" }}
-                      onChange={onSrcImgChange}
+                      ref={b_width_slider}
+                      type={"range"}
+                      onChange={(e) => setBrushWidth(parseInt(e.target.value))}
+                      value={brushWidth}
                     />
                   </div>
                   <div
-                    onClick={onClickDrawMode}
-                    className="bg-[rgb(74,74,74)] mx-1 px-2 text-sm justify-center items-center flex rounded-md cursor-pointer transition-all hover:bg-[#707070]"
+                    onClick={adjustBlendPosition}
+                    className="w-1/2 cursor-pointer text-sm font-bold bg-[#4A4A4A] rounded-br-xl flex justify-center items-center px-7 transition-all hover:bg-[#707070]"
                   >
-                    DRAW
-                  </div>
-                  <div
-                    onClick={onClickEraseMode}
-                    className="bg-[#4A4A4A] mx-1 px-2 text-sm justify-center items-center flex rounded-md cursor-pointer transition-all hover:bg-[#707070]"
-                  >
-                    ERASE
+                    PROCEED TO BLEND
                   </div>
                 </div>
-              );
-            }}
-          >
-            <div id="canvasContainer" className="flex flex-col">
-              <CanvasDraw
-                canvasHeight={base_size.height}
-                canvasWidth={base_size.width}
-                ref={mask_canvas_ref}
-                imgSrc={src_img}
-                brushColor={brushColor}
-                brushRadius={brushWidth}
-                saveData={""}
-                immediateLoading={true}
-                lazyRadius={0}
-              />
+              </Window>
             </div>
-            <div className="w-full rounded-b-xl bg-[#303030] flex justify-between">
-              <div className="flex items-center pl-4 w-1/2">
-                <span className="text-xs mr-4 my-2">BRUSH SIZE</span>
-                <input
-                  ref={b_width_slider}
-                  type={"range"}
-                  onChange={(e) => setBrushWidth(parseInt(e.target.value))}
-                  value={brushWidth}
-                />
-              </div>
-              <div
-                onClick={adjustBlendPosition}
-                className="w-1/2 cursor-pointer text-sm font-bold bg-[#4A4A4A] rounded-br-xl flex justify-center items-center px-7 transition-all hover:bg-[#707070]"
-              >
-                PROCEED TO BLEND
-              </div>
-            </div>
-          </Window>
-        </div>
-      </div>
-      <div id="blendResultSection" className="w-1/2 pr-8">
-        <div className="flex flex-col h-full">
-          <Window title="Adjust blend position">
-            <canvas
-              style={{ height: "100%" }}
-              id="result-img"
-              ref={(r) => {
-                res_canvas_ref = r;
-                if (r) onBaseImgChange(genImageSrc);
-              }}
-              width={base_size.width}
-              height={base_size.height}
-            />
-          </Window>
-          <div className="mt-4 h-full">
-            <Window title="Adjust blend position">
-              <div className="h-full w-full flex">
-                <div className="h-full w-1/2 flex justify-center items-center">
-                  <div className="bg-[#303030] p-4 rounded-xl">
-                    <svg
-                      viewBox="0 0 50 51"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-20"
-                    >
-                      <rect
-                        x={5}
-                        y={27}
-                        width={3}
-                        height={20}
-                        transform="rotate(-90 5 27)"
-                        fill="#828282"
-                      />
-                      <path
-                        className="cursor-pointer"
-                        onClick={() => {
-                          moveBlendPosition("left");
-                        }}
-                        d="M1.13286e-07 25.5L14.25 17.2728L14.25 33.7272L1.13286e-07 25.5Z"
-                        fill="#828282"
-                      />
-                      <rect
-                        x="26.5"
-                        y="45.5"
-                        width={3}
-                        height={20}
-                        transform="rotate(180 26.5 45.5)"
-                        fill="#828282"
-                      />
-                      <path
-                        className="cursor-pointer"
-                        onClick={() => {
-                          moveBlendPosition("down");
-                        }}
-                        d="M25 50.5L16.7728 36.25L33.2272 36.25L25 50.5Z"
-                        fill="#828282"
-                      />
-                      <rect
-                        x={45}
-                        y={24}
-                        width={3}
-                        height={20}
-                        transform="rotate(90 45 24)"
-                        fill="#828282"
-                      />
-                      <path
-                        className="cursor-pointer"
-                        onClick={() => {
-                          moveBlendPosition("right");
-                        }}
-                        d="M50 25.5L35.75 33.7272L35.75 17.2728L50 25.5Z"
-                        fill="#828282"
-                      />
-                      <rect
-                        x="23.5"
-                        y="5.5"
-                        width={3}
-                        height={20}
-                        fill="#828282"
-                      />
-                      <path
-                        className="cursor-pointer"
-                        onClick={() => {
-                          moveBlendPosition("up");
-                        }}
-                        d="M25 0.500001L33.2272 14.75L16.7728 14.75L25 0.500001Z"
-                        fill="#828282"
-                      />
-                    </svg>
-                  </div>
-                  <div className="bg-[#303030]"></div>
-                </div>
-
-                <div className="h-full w-1/2 flex justify-center items-center">
-                  <div className="flex flex-col">
-                    <button
-                      onClick={blendImages}
-                      className="bg-[#303030] text-sm font-bold px-6 py-2 rounded-xl transition-all hover:bg-gray-500 cursor-pointer mb-3"
-                    >
-                      START BLENDING
-                    </button>
-                    <button
-                      onClick={onClickSaveBlend}
-                      className="bg-[#303030] text-sm font-bold px-6 py-2 rounded-xl transition-all hover:bg-gray-500 cursor-pointer"
-                    >
-                      SAVE BLEND
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </Window>
           </div>
-        </div>
-      </div>
+          <div id="blendResultSection" className="w-1/2 pr-8">
+            <div className="flex flex-col h-full">
+              <Window title="Adjust blend position">
+                <canvas
+                  style={{ height: "100%" }}
+                  id="result-img"
+                  ref={(r) => {
+                    res_canvas_ref = r;
+                    if (r) onBaseImgChange(genImageSrc);
+                  }}
+                  width={base_size.width}
+                  height={base_size.height}
+                />
+              </Window>
+              <div className="mt-4 h-full">
+                <Window title="Adjust blend position">
+                  <div className="h-full w-full flex">
+                    <div className="h-full w-1/2 flex justify-center items-center">
+                      <div className="bg-[#303030] p-4 rounded-xl">
+                        <svg
+                          viewBox="0 0 50 51"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-20"
+                        >
+                          <rect
+                            x={5}
+                            y={27}
+                            width={3}
+                            height={20}
+                            transform="rotate(-90 5 27)"
+                            fill="#828282"
+                          />
+                          <path
+                            className="cursor-pointer"
+                            onClick={() => {
+                              moveBlendPosition("left");
+                            }}
+                            d="M1.13286e-07 25.5L14.25 17.2728L14.25 33.7272L1.13286e-07 25.5Z"
+                            fill="#828282"
+                          />
+                          <rect
+                            x="26.5"
+                            y="45.5"
+                            width={3}
+                            height={20}
+                            transform="rotate(180 26.5 45.5)"
+                            fill="#828282"
+                          />
+                          <path
+                            className="cursor-pointer"
+                            onClick={() => {
+                              moveBlendPosition("down");
+                            }}
+                            d="M25 50.5L16.7728 36.25L33.2272 36.25L25 50.5Z"
+                            fill="#828282"
+                          />
+                          <rect
+                            x={45}
+                            y={24}
+                            width={3}
+                            height={20}
+                            transform="rotate(90 45 24)"
+                            fill="#828282"
+                          />
+                          <path
+                            className="cursor-pointer"
+                            onClick={() => {
+                              moveBlendPosition("right");
+                            }}
+                            d="M50 25.5L35.75 33.7272L35.75 17.2728L50 25.5Z"
+                            fill="#828282"
+                          />
+                          <rect
+                            x="23.5"
+                            y="5.5"
+                            width={3}
+                            height={20}
+                            fill="#828282"
+                          />
+                          <path
+                            className="cursor-pointer"
+                            onClick={() => {
+                              moveBlendPosition("up");
+                            }}
+                            d="M25 0.500001L33.2272 14.75L16.7728 14.75L25 0.500001Z"
+                            fill="#828282"
+                          />
+                        </svg>
+                      </div>
+                      <div className="bg-[#303030]"></div>
+                    </div>
+
+                    <div className="h-full w-1/2 flex justify-center items-center">
+                      <div className="flex flex-col">
+                        <button
+                          onClick={blendImages}
+                          className="bg-[#303030] text-sm font-bold px-6 py-2 rounded-xl transition-all hover:bg-gray-500 cursor-pointer mb-3"
+                        >
+                          START BLENDING
+                        </button>
+                        <button
+                          onClick={onClickSaveBlend}
+                          className="bg-[#303030] text-sm font-bold px-6 py-2 rounded-xl transition-all hover:bg-gray-500 cursor-pointer"
+                        >
+                          SAVE BLEND
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </Window>
+              </div>
+            </div>
+          </div>
+        </React.Fragment>
+      )}
     </div>
   );
 };
