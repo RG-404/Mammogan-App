@@ -396,7 +396,7 @@ const Annotate = () => {
       {/* [*][] */}
       {genImageSrc?.length === 0 ? (
         <div className="w-full self-center text-center">
-          KELLA NAI SUN PHOTO
+          PLEASE UPLOAD PICTURE FAST
         </div>
       ) : (
         <React.Fragment>
