@@ -36,9 +36,9 @@ export const AuthProvider: React.FC<React.ReactNode> = (props: any) => {
   }, []);
 
   const getUserTypes = async () => {
-    const res = await axios.get(`${CONFIG.management_api}/auth/user/types`);
-    console.log(res.data);
-    setUserTypes(res.data);
+    // const res = await axios.get(`${CONFIG.management_api}/auth/user/types`);
+    // console.log(res.data);
+    // setUserTypes(res.data);
   };
 
   const login = async (data: loginRequestBody): Promise<boolean> => {

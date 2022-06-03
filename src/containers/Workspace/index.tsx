@@ -95,7 +95,7 @@ const Workspace = () => {
     }
     setOn(true);
     socket.emit("reconstruct", {}, (list: any, res: any) => {
-       setPrincipalValues(list);
+      setPrincipalValues(list);
       if (setGenImageSrc)
         setGenImageSrc(res ? `data:image/png;base64,${res}` : "");
       setGenImageLoading(false);
@@ -104,6 +104,7 @@ const Workspace = () => {
 
   useEffect(() => {
     (async () => {
+      console.log(url);
       const newSocket = io(`${url}`, { reconnection: false });
       setSocket(newSocket);
       return () => newSocket.close();
@@ -115,6 +116,9 @@ const Workspace = () => {
       socket.on("connect", () =>
         console.log("Socket Connection Established\nID: " + socket.id)
       );
+      socket.on('connect_failed', function() {
+        console.log("Sorry, there seems to be an issue with the connection!");
+     })
       socket.on("uploadMsg", (msg: any) => setProgress(msg));
     }
   }, [socket]);

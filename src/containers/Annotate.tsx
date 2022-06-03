@@ -29,6 +29,8 @@ const Annotate = () => {
   const [brushColor, setBrushColor] = useState<string>("rgba(0,255,0,1.0)");
   const [maskFileName, setMaskFileName] = useState<string>("");
 
+  const [drawCanvas, setdrawCanvas] = useState(false);
+
   const onBaseImgChange = (genImgSrc: any) => {
     let base_canvas: any = base_canvas_ref;
     let base_ctx: any = base_canvas.getContext("2d");
@@ -58,10 +60,16 @@ const Annotate = () => {
     image.onload = function () {
       src_ctx.drawImage(image, 0, 0, base_size.width, base_size.height);
     };
+    console.log("sourced changed");
   }, [src_img, brushWidth]);
+
+  useEffect(() => {
+    console.log("STATUS", uploading);
+  }, [uploading]);
 
   const onSrcImgChange = async (e: any) => {
     setUploading(true);
+
     let src_canvas: any = src_canvas_ref;
     let src_ctx = src_canvas.getContext("2d");
     let mask_ctx = mask_canvas_ref.current;
@@ -73,9 +81,9 @@ const Annotate = () => {
     try {
       const res: any = await uploadFormData(formData);
       const img_base64 = "data:image/png;base64," + res.data;
-      setSrcImg(img_base64);
       let image = new Image();
       image.src = img_base64;
+      setSrcImg(img_base64);
       image.onload = function () {
         src_ctx.drawImage(image, 0, 0, base_size.width, base_size.height);
         mask_ctx.drawImage(image, 0, 0, base_size.width, base_size.height);
@@ -86,6 +94,8 @@ const Annotate = () => {
       setUploading(false);
       setMaskFileName(file.name.split(".")[0]);
     }
+
+    setBrushWidth(p => p + 1)
   };
 
   const adjustBlendPosition = () => {
@@ -433,17 +443,17 @@ const Annotate = () => {
                 }}
               >
                 <div id="canvasContainer" className="flex flex-col">
-                  <CanvasDraw
-                    canvasHeight={base_size.height}
-                    canvasWidth={base_size.width}
-                    ref={mask_canvas_ref}
-                    imgSrc={src_img}
-                    brushColor={brushColor}
-                    brushRadius={brushWidth}
-                    saveData={""}
-                    immediateLoading={true}
-                    lazyRadius={0}
-                  />
+                    <CanvasDraw
+                      canvasHeight={base_size.height}
+                      canvasWidth={base_size.width}
+                      ref={mask_canvas_ref}
+                      imgSrc={src_img}
+                      brushColor={brushColor}
+                      brushRadius={brushWidth}
+                      saveData={""}
+                      immediateLoading={true}
+                      lazyRadius={0}
+                    />
                 </div>
                 <div className="w-full rounded-b-xl bg-[#303030] flex justify-between">
                   <div className="flex items-center pl-4 w-1/2">

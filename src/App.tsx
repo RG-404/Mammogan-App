@@ -10,8 +10,9 @@ import AdminDash from "./screens/AdminDash";
 
 import Annotate from "./containers/Annotate";
 import Workspace from "./containers/Workspace";
-import AdminUserSection from "./containers/AdminUserSection";
 import AdminOverviewSection from "./containers/AdminOverviewSection";
+import AdminUserDetailSection from "./containers/AdminUserDetailSection";
+import AdminSettings from "./containers/AdminSettings";
 
 import "./App.css";
 
@@ -28,8 +29,9 @@ function App() {
                 <Route path="annotate" element={<Annotate />} />
               </Route>
               <Route path="admin" element={<AdminDash />}>
-                <Route path="" element={<AdminUserSection />} />
-                <Route path="overview" element={<AdminOverviewSection />} />
+                <Route path="" element={<AdminOverviewSection />} />
+                <Route path="user" element={<AdminUserDetailSection />} />
+                <Route path="settings" element={<AdminSettings />} />
               </Route>
             </Routes>
           </BrowserRouter>
