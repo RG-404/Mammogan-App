@@ -105,7 +105,9 @@ const Workspace = () => {
   useEffect(() => {
     (async () => {
       console.log(url);
-      const newSocket = io(`${url}`, { reconnection: false, path: "/gan/socket.io" });
+      const newSocket = io(`${url}`, { reconnection: false
+        // , path: "/gan/socket.io"
+       });
       setSocket(newSocket);
       return () => newSocket.close();
     })();
