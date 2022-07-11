@@ -1,6 +1,5 @@
 {
   "name": "mamogan-ui",
-  "homepage": "http://vision.apps.iitd.ac.in/gan_api/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
