@@ -21,9 +21,7 @@ function App() {
     <div className="App">
       <AuthProvider>
         <DataProvider>
-          <BrowserRouter 
-          // basename="/gan_app"
-          >
+          <BrowserRouter basename="/gan_app">
             <Routes>
               <Route path="login" element={<Login />} />
               <Route path="" element={<MainScreen />}>
